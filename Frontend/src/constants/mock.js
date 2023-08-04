@@ -771,5 +771,6 @@ export const dailyHistoricalDate = {
     "4. close": "125.5800",
     "5. volume": "8188369"
     }
-    }
+    
+}
 }
