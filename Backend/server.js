@@ -42,7 +42,7 @@ app.get('/stock/:stockSymbol', (req, res) => {
 });
 
 /**
- * The endpoint we will use to get stock data
+ * The endpoint we will use to get intraday stock data
 */
 
 app.get('/stock', (req, res) => { 
