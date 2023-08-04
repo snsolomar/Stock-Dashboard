@@ -3,12 +3,12 @@ const express = require('express');
 const axios = require('axios');
 
 
+const url = require('./constants/url');
 const app = express()
 const port = 3000
-const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+
 // Symbol is set to IBM; Refactor so symbol is a const
 // Function only tracks intraday trading. Suggest creating separate urls for daily, monthly, and yearly endpoints
-const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=${apiKey}`;
 
 
 app.use(express.json());
