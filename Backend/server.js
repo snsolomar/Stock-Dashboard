@@ -2,16 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 
-
+// imported constants
 const urlIntra = require('./constants/url');
 const apiKey = require('./constants/apiKey')
+
+
 const app = express()
 const port = 3000
 
-// Symbol is set to IBM; Refactor so symbol is a const
-// Function only tracks intraday trading. Suggest creating separate urls for daily, monthly, and yearly endpoints
 
-
+// init application
 app.use(express.json());
 
 app.get('/', (req, res) => {
