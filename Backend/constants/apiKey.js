@@ -1,4 +1,4 @@
 require('dotenv').config();
 
 const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
-module.export = apiKey;
+module.exports = apiKey;
