@@ -1,8 +1,7 @@
-import React from 'react'
-import Cards from './Cards'
-import { mockCompanyDetails } from '../constants/mock'
-import Search from './Search'
-import Header from './Header'
+import React from 'react';
+import Cards from './Cards';
+import { mockCompanyDetails } from '../constants/mock';
+import Header from './Header';
 
 const Dashboard = () => {
   return (
