@@ -47,7 +47,7 @@ export const mockCompanyDetails = {
     "ExDividendDate": "2023-08-09"
 }
 
-export const bestMatches = {
+export const mockSearchResults = {
     "bestMatches": [
         {
         "1. symbol": "BA",
