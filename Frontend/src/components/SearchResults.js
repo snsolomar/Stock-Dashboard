@@ -7,7 +7,7 @@ const SearchResults = ( {results} ) => {
             // console.log('Key:', item["1. symbol"]); // Log the key
             return <li key={item["1. symbol"]} className='cursor-pointer p-4 m-2 flex items-center justify-between rounded-md hover:bg-emerald-200'>
                 <span>{item["1. symbol"]}</span>
-                <span>{item["2. name"]}</span>
+                <span>{item["2. name"].substring(0, 25)}</span>
             </li>
         })}
     </ul>
