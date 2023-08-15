@@ -22,15 +22,14 @@ const Search = () => {
             className='w-full px-4 py-2 focus:outline-none rounded-md'
             placeholder='Seach Stock Symbol'
             onChange={(event) => {
-                setInput(event.target.value);
-                if (input) {
-                    const matchingResults = mockSearchResults.bestMatches.filter(
-                        item => item["1. symbol"].toLowerCase().startsWith(input.toLowerCase())
-                    );
-                    setBestMatches(matchingResults);
-                } else {
-                    setBestMatches([]); 
-                }
+                const inputValue = event.target.value;
+                setInput(inputValue);
+            
+                const matchingResults = mockSearchResults.bestMatches.filter(
+                    item => item["1. symbol"].toLowerCase().startsWith(inputValue.toLowerCase())
+                );
+            
+                setBestMatches(matchingResults);
             }}
             onKeyPress={(event) => {
                 if (event.key === 'Enter') {
