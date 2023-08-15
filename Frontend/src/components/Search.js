@@ -8,18 +8,6 @@ const Search = () => {
     const [bestMatches, setBestMatches] = useState([]);
 
 
-    const updateBestMatches = () => {
-        if (input) {
-            const matchingResults = mockSearchResults.bestMatches.filter(
-                item => item["1. symbol"].toLowerCase().startsWith(input.toLowerCase())
-            );
-            setBestMatches(matchingResults);
-        } else {
-            setBestMatches([]); // Clear matches if input is empty
-        }
-
-    }
-
     const clear = () => {
         setInput("");
         setBestMatches([]); 
@@ -35,27 +23,19 @@ const Search = () => {
             placeholder='Seach Stock Symbol'
             onChange={(event) => {
                 setInput(event.target.value);
-
-                // if(event.target.value) {
-                //     const matchingResults = mockSearchResults.bestMatches.filter(
-                //         item => item["1. symbol"].startsWith(event.target.value)
-                //     );
-                //     setBestMatches(matchingResults);
-                // } else {
-                //     setBestMatches([]);
-                // }
-                
+                if (input) {
+                    const matchingResults = mockSearchResults.bestMatches.filter(
+                        item => item["1. symbol"].toLowerCase().startsWith(input.toLowerCase())
+                    );
+                    setBestMatches(matchingResults);
+                } else {
+                    setBestMatches([]); 
+                }
             }}
             onKeyPress={(event) => {
                 if (event.key === 'Enter') {
-                    updateBestMatches();
+                    // search bestMatch
                 }
-                // if (event.key === 'Enter') {
-                //     const matchingResults = mockSearchResults.bestMatches.filter(
-                //         item => item["1. symbol"].startsWith(event.target.value)
-                //     );
-                //     setBestMatches(matchingResults);
-                // }
             }}
             />
             
@@ -66,7 +46,7 @@ const Search = () => {
             )}
 
             <button 
-            onClick={updateBestMatches} 
+            // onClick={search the best match} 
             className='h-8 w-8 bg-emerald-700 rounded-md flex justify-center items-center m-1 p-2'>
                 <MagnifyingGlassIcon className='h-4 w-4 fill-gray-100'/>
             </button>
