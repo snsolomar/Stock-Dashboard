@@ -7,15 +7,23 @@ const Search = () => {
     const [input, setInput] = useState("")
     const [bestMatches, setBestMatches] = useState([]);
 
+
+    const updateBestMatches = () => {
+        if (input) {
+            const matchingResults = mockSearchResults.bestMatches.filter(
+                item => item["1. symbol"].toLowerCase().startsWith(input.toLowerCase())
+            );
+            setBestMatches(matchingResults);
+        } else {
+            setBestMatches([]); // Clear matches if input is empty
+        }
+
+    }
+
     const clear = () => {
         setInput("");
         setBestMatches([]); 
     };
-
-    const updateBestMatches = () => {
-        setBestMatches(mockSearchResults.result);
-
-    }
     
 
     return (
@@ -27,13 +35,27 @@ const Search = () => {
             placeholder='Seach Stock Symbol'
             onChange={(event) => {
                 setInput(event.target.value);
-                console.log(event.target.value)
+
+                // if(event.target.value) {
+                //     const matchingResults = mockSearchResults.bestMatches.filter(
+                //         item => item["1. symbol"].startsWith(event.target.value)
+                //     );
+                //     setBestMatches(matchingResults);
+                // } else {
+                //     setBestMatches([]);
+                // }
+                
             }}
             onKeyPress={(event) => {
-                if (event.key === 'Enter'){
-                    setBestMatches([event.target.value]);
-                    console.log(bestMatches);
+                if (event.key === 'Enter') {
+                    updateBestMatches();
                 }
+                // if (event.key === 'Enter') {
+                //     const matchingResults = mockSearchResults.bestMatches.filter(
+                //         item => item["1. symbol"].startsWith(event.target.value)
+                //     );
+                //     setBestMatches(matchingResults);
+                // }
             }}
             />
             
