@@ -26,7 +26,9 @@ const Search = () => {
                 setInput(inputValue);
             
                 const matchingResults = mockSearchResults.bestMatches.filter(
-                    item => item["1. symbol"].toLowerCase().startsWith(inputValue.toLowerCase())
+                    item =>
+                        item["1. symbol"].toLowerCase().startsWith(inputValue.toLowerCase()) ||
+                        item["2. name"].toLowerCase().startsWith(inputValue.toLowerCase())
                 );
             
                 setBestMatches(matchingResults);
