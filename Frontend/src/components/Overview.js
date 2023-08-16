@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import Cards from './Cards'
 
 const Overview = ({ symbol, price, change, changePercent, currency }) => {
+  
+  const isPositiveChange = parseFloat(change) > 0;
+
   return (
     <Cards>
         <span className='absolute left-4 top-4 text-neutral-500 text-lg xl:text-xl 2xl:text-2xl'>{symbol}</span>
@@ -12,9 +15,11 @@ const Overview = ({ symbol, price, change, changePercent, currency }) => {
                     {currency}
                 </span>
             </span>
-            <span>
+            <span className={isPositiveChange ? 'text-green-500' : 'text-red-500'}>
                 {change}
-                <span>({changePercent})</span>
+                <span className={isPositiveChange ? 'text-green-500' : 'text-red-500'}>
+                    ({changePercent})
+                </span>
             </span>
             
             
