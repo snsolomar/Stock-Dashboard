@@ -47,6 +47,21 @@ export const mockCompanyDetails = {
     "ExDividendDate": "2023-08-09"
 }
 
+export const mockCurrentQuote = {
+    "Global Quote": {
+    "01. symbol": "IBM",
+    "02. open": "141.5000",
+    "03. high": "142.3100",
+    "04. low": "141.2000",
+    "05. price": "141.8700",
+    "06. volume": "3656559",
+    "07. latest trading day": "2023-08-15",
+    "08. previous close": "141.9100",
+    "09. change": "-0.0400",
+    "10. change percent": "-0.0282%"
+    }
+}
+
 export const mockSearchResults = {
     "bestMatches": [
         {
