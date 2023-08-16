@@ -15,7 +15,7 @@ const Search = () => {
     
 
     return (
-        <div className='flex item-center my-4 border-2 rounded-md relative z-50 w-96 bg-white border-neutral-200'>
+        <div className='flex items-center my-4 border-2 rounded-md relative z-50 w-96 bg-white border-neutral-200'>
             <input 
             type="text" 
             value={input} 
