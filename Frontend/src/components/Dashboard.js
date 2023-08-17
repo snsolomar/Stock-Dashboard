@@ -14,7 +14,7 @@ const Dashboard = () => {
         <Header name={mockCompanyDetails.Name}></Header>
         </div>
       <div className='md:col-span-2 row-span-4'>
-        <Cards>Chart</Cards>
+        <Cards></Cards>
         </div>
       <div>
         <Overview 
@@ -27,7 +27,7 @@ const Dashboard = () => {
         </div>
       <div className='row-span-2 xl-row-span-3'>
         <Details>
-          
+
         </Details>
         </div>
     </div>
