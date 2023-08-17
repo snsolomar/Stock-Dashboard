@@ -3,6 +3,7 @@ import Cards from './Cards';
 import { mockCompanyDetails, mockCurrentQuote } from '../constants/mock';
 import Header from './Header';
 import Overview from './Overview';
+import Details from './Details';
 
 const Dashboard = () => {
 
@@ -16,7 +17,6 @@ const Dashboard = () => {
         <Cards>Chart</Cards>
         </div>
       <div>
-        {/* <Cards>Overview</Cards> */}
         <Overview 
           symbol={mockCurrentQuote['Global Quote']['01. symbol']} 
           price={mockCurrentQuote['Global Quote']['05. price']}
@@ -26,7 +26,9 @@ const Dashboard = () => {
         ></Overview>
         </div>
       <div className='row-span-2 xl-row-span-3'>
-        <Cards>Details</Cards>
+        <Details>
+          
+        </Details>
         </div>
     </div>
   )
