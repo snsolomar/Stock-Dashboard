@@ -4,12 +4,12 @@ import Cards from './Cards';
 const Details = ({ details }) => {
    const CompanyLists = ({ details }) => {
       const companyDetails = {
-         name: details.Name,
-         country: details.Country,
-         currency: details.Currency,
-         exchange: details.Exchange,
-         sector: details.Sector,
-         industry: details.Industry
+         Name: details.Name,
+         Country: details.Country,
+         Currency: details.Currency,
+         Exchange: details.Exchange,
+         Sector: details.Sector,
+         Industry: details.Industry
       };
 
       const companySummary = {
@@ -30,9 +30,10 @@ const Details = ({ details }) => {
                    return (
                    <li 
                    key={item} 
-                   className='flex-1 flex justify-between item-center'
+                   className="flex-1 flex justify-between items-center"
                    >
-                      <span>{item}: {companyDetails[item]}</span>
+                      <span>{item}:</span>
+                      <span>{companyDetails[item]}</span>
                    </li>
                    )
                })}
