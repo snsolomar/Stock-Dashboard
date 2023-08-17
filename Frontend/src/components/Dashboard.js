@@ -26,9 +26,10 @@ const Dashboard = () => {
         ></Overview>
         </div>
       <div className='row-span-2 xl-row-span-3'>
-        <Details details={mockCompanyDetails}>
-
-        </Details>
+        <Details 
+        details={mockCompanyDetails} 
+        summary={mockCurrentQuote}
+        ></Details>
         </div>
     </div>
   )
