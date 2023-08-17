@@ -6,6 +6,10 @@ const Details = () => {
   const companyDetails = {
     name: "Name",
     country: 'Country',
+    currency: 'USD',
+    exchange: 'Exchange',
+    sector: 'Sector',
+    industry: 'Industry'
   }
   const companySummary = {
     previousClose: 'Previous Close',
