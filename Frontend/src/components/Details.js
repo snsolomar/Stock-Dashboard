@@ -4,12 +4,12 @@ import Cards from './Cards';
 const Details = ({ details }) => {
    const CompanyLists = ({ details }) => {
       const companyDetails = {
-         name: details.Name,
-         country: details.Country,
-         currency: details.Currency,
-         exchange: details.Exchange,
-         sector: details.Sector,
-         industry: details.Industry
+         Name: details.Name,
+         Country: details.Country,
+         Currency: details.Currency,
+         Exchange: details.Exchange,
+         Sector: details.Sector,
+         Industry: details.Industry
       };
 
       const companySummary = {
