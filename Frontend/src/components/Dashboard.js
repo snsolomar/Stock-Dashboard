@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
-import Cards from './Cards';
-import { mockCompanyDetails, mockCurrentQuote } from '../constants/mock';
+import React, {} from 'react';
+// import Cards from './Cards';
+import { dailyHistoricalData, mockCompanyDetails, mockCurrentQuote } from '../constants/mock';
 import Header from './Header';
 import Overview from './Overview';
 import Details from './Details';
+import Chart from './Chart';
+import ConvertDateTime from '../utils/helperFunctions/ConvertDateTime';
 
 const Dashboard = () => {
 
+  const chartData = ConvertDateTime(dailyHistoricalData);
   
   return (
     <div className='h-screen grid grid-cols-1 md:grid-cols-2 xl:grids-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 auto-rows-fr gap-6 p-10 font-quicksand'>
@@ -14,7 +17,7 @@ const Dashboard = () => {
         <Header name={mockCompanyDetails.Name}></Header>
         </div>
       <div className='md:col-span-2 row-span-4'>
-        <Cards></Cards>
+        <Chart data={chartData}></Chart>
         </div>
       <div>
         <Overview 

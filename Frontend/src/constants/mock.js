@@ -192,7 +192,7 @@ export const stockQuote = {
     }
 }
 
-export const dailyHistoricalDate = {
+export const dailyHistoricalData = {
     "Meta Data": {
     "1. Information": "Daily Prices (open, high, low, close) and Volumes",
     "2. Symbol": "IBM",
