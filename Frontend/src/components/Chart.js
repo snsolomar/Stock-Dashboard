@@ -2,7 +2,7 @@ import React from 'react'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 
-const Chart = ({ chartData, chartTitle = 'My stock chart' }) => {
+const Chart = ({ data, chartTitle = 'Input Stock Name' }) => {
   const options = {
     title: {
       text: chartTitle
@@ -37,7 +37,7 @@ const Chart = ({ chartData, chartTitle = 'My stock chart' }) => {
     },
     series: [{
       name: 'Stock Value',
-      data: chartData,
+      data: data,
       tooltip: {
         valueDecimals: 2
       }
