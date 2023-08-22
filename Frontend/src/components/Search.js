@@ -3,10 +3,16 @@ import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import SearchResults from './SearchResults';
 import { mockSearchResults } from '../constants/mock';
 
-const Search = () => {
+const Search = ( {onStockSelected}) => {
     const [input, setInput] = useState("")
     const [bestMatches, setBestMatches] = useState([]);
 
+    const handleSearch = () => {
+        if (bestMatches && bestMatches.length > 0) {
+            const selectedSymbol = bestMatches[0]["1. symbol"];  // Assume the first match is the best match.
+            onStockSelected(selectedSymbol);
+        }
+    }
 
     const clear = () => {
         setInput("");
@@ -35,7 +41,7 @@ const Search = () => {
             }}
             onKeyPress={(event) => {
                 if (event.key === 'Enter') {
-                    // search bestMatch
+                    handleSearch();
                 }
             }}
             />
@@ -47,9 +53,9 @@ const Search = () => {
             )}
 
             <button 
-            // onClick={search the best match} 
-            className='h-8 w-8 bg-emerald-700 rounded-md flex justify-center items-center m-1 p-2'>
-                <MagnifyingGlassIcon className='h-4 w-4 fill-gray-100'/>
+                onClick={handleSearch} 
+                className='h-8 w-8 bg-emerald-700 rounded-md flex justify-center items-center m-1 p-2'>
+                    <MagnifyingGlassIcon className='h-4 w-4 fill-gray-100'/>
             </button>
 
             {input && bestMatches.length > 0 ? (
