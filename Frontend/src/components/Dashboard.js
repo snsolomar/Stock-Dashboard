@@ -7,15 +7,17 @@ import Details from './Details';
 import Chart from './Chart';
 import ConvertDateTime from '../utils/helperFunctions/ConvertDateTime';
 import { monthlyHistoricalData } from '../constants/mockmonthly';
+import { MockWeeklyHistoricalData } from '../constants/MockWeekly';
+import { mockDailyHistoricalData } from '../constants/mockdaily';
 
 const Dashboard = () => {
 
-  const chartData = Object.entries(monthlyHistoricalData["Monthly Time Series"]).map(([date, data]) => {
+  const chartData = Object.entries(mockDailyHistoricalData["Time Series (Daily)"]).map(([date, data]) => {
     return [
         new Date(date).getTime(),  // Convert date to timestamp
         parseFloat(data["4. close"])  // Convert closing price string to number
     ];
-}).reverse();
+  }).reverse();
 
   return (
     <div className='h-screen grid grid-cols-1 md:grid-cols-2 xl:grids-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 auto-rows-fr gap-6 p-10 font-quicksand'>

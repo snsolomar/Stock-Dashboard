@@ -1,4 +1,4 @@
-export const dailyHistoricalData = {
+export const mockDailyHistoricalData = {
 "Meta Data": {
 "1. Information": "Daily Prices (open, high, low, close) and Volumes",
 "2. Symbol": "IBM",

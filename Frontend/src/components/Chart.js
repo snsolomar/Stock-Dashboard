@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 
-const Chart = ({ data, chartTitle = 'Input Stock Name' }) => {
+const Chart = ({ initialData, data, chartTitle = 'Input Stock Name', fetchData }) => {
+  const [chartData, setChartData] = useState(initialData);
+
   const options = {
     title: {
       text: chartTitle
@@ -35,9 +37,21 @@ const Chart = ({ data, chartTitle = 'Input Stock Name' }) => {
           text: '5Y'
       }]
     },
+    // xAxis: {
+    //   events: {
+    //       setExtremes: function(e) {
+    //           const fromDate = new Date(e.min);
+    //           const toDate = new Date(e.max);
+    //           // You can now use fromDate and toDate to fetch data for the specific range from your backend
+    //           fetchData(fromDate, toDate).then(data => {
+    //               setChartData(data);
+    //           });
+    //         }
+    //     }
+    // },
     series: [{
       name: 'Stock Value',
-      data: data,
+      data: data, // change to chartData once you build the api
       tooltip: {
         valueDecimals: 2
       }
