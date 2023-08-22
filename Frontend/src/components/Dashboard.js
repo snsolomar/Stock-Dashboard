@@ -79,7 +79,7 @@ const Dashboard = () => {
             price={currentQuote['Global Quote'] && currentQuote['Global Quote']['05. price']}
             change={currentQuote['Global Quote'] && currentQuote['Global Quote']['09. change']}
             changePercent={currentQuote['Global Quote'] && currentQuote['Global Quote']['10. change percent']}
-            currency={mockCompanyDetails.Currency}
+            currency={companyDetails.Currency}
         ></Overview>
         </div>
       <div className='row-span-2 xl-row-span-3'>
