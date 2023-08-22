@@ -32,14 +32,17 @@ const Search = ( {onStockSelected}) => {
                 const inputValue = event.target.value;
                 setInput(inputValue);
             
-                const matchingResults = mockSearchResults.bestMatches.filter(
-                    item =>
-                        item["1. symbol"].toLowerCase().startsWith(inputValue.toLowerCase()) ||
-                        item["2. name"].toLowerCase().startsWith(inputValue.toLowerCase())
-                );
-            
-                setBestMatches(matchingResults);
+                fetch(`http://localhost:3001/searchResults/${inputValue}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Assuming the API's search results are in a property called bestMatches
+                    setBestMatches(data.bestMatches || []);
+                })
+                .catch(error => {
+                    console.error("Error fetching search results:", error);
+                });
             }}
+            
             onKeyPress={(event) => {
                 if (event.key === 'Enter') {
                     handleSearch();

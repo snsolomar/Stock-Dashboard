@@ -63,6 +63,26 @@ app.get('/stock', (req, res) => {
     });
 });
 
+/**
+ * Fetches stock symbols based on the search query
+ */
+app.get('/searchResults/:query', (req, res) => {
+    const searchQuery = req.params.query;
+    
+    const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchQuery}&apikey=${apiKey}`;
+
+    axios.get(url, { 
+        headers: {'User-Agent': 'request'}
+    })
+    .then((response) => {
+        // Send the search results as JSON
+        res.json(response.data);
+    })
+    .catch((err) => {
+        console.error('Error:', err);
+        res.status(500).send('An error occurred while fetching the data');
+    });
+});
 
 
 

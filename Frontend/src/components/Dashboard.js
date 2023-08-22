@@ -20,7 +20,7 @@ const Dashboard = () => {
     console.log('Inside useEffect, selectedStockSymbol:', selectedStockSymbol);
     if (selectedStockSymbol) {
         // Fetch the stock details from the server
-        fetch(`/stock/:${selectedStockSymbol}`)
+        fetch(`http://localhost:3001/stock/${selectedStockSymbol}`)
             .then(response => response.json())
             .then(data => {
                 setCompanyDetails(data);
