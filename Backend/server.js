@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
 
 // imported constants
 const urlIntra = require('./constants/url');
@@ -8,11 +9,12 @@ const apiKey = require('./constants/apiKey')
 
 
 const app = express()
-const port = 3000
+const port = 3001
 
 
 // init application
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import Cards from './Cards';
 import { dailyHistoricalData, mockCompanyDetails, mockCurrentQuote } from '../constants/mock';
 import Header from './Header';
@@ -12,6 +12,25 @@ const Dashboard = () => {
 
   // Add state for the selected stock symbol
   const [selectedStockSymbol, setSelectedStockSymbol] = useState('');
+  console.log(selectedStockSymbol);
+  // Add state for storing company details
+  const [companyDetails, setCompanyDetails] = useState({});
+
+  useEffect(() => {
+    console.log('Inside useEffect, selectedStockSymbol:', selectedStockSymbol);
+    if (selectedStockSymbol) {
+        // Fetch the stock details from the server
+        fetch(`/stock/:${selectedStockSymbol}`)
+            .then(response => response.json())
+            .then(data => {
+                setCompanyDetails(data);
+            })
+            .catch(error => {
+                console.error("Error fetching stock details:", error);
+            });
+    }
+}, [selectedStockSymbol]);
+
 
   const chartData = Object.entries(mockDailyHistoricalData["Time Series (Daily)"]).map(([date, data]) => {
     return [
@@ -25,7 +44,7 @@ const Dashboard = () => {
       <div className='col-span-1 md:col-span-2 xl:col-span-3 row-span-1 flex justify-start items-center'>
         <Header 
           name={mockCompanyDetails.Name}
-          setSelectedStockSymbol={setSelectedStockSymbol} 
+          onStockSelected={setSelectedStockSymbol} 
         >
         </Header>
         </div>
@@ -43,7 +62,7 @@ const Dashboard = () => {
         </div>
       <div className='row-span-2 xl-row-span-3'>
         <Details 
-        details={mockCompanyDetails} 
+        details={companyDetails} 
         summary={mockCurrentQuote}
         ></Details>
         </div>
