@@ -1,0 +1,5 @@
+### GET Stock Details
+GET http://127.0.0.1:3001/stock/IBM
+
+### GET Best Results
+GET http://127.0.0.1:3001/searchResults/BA
