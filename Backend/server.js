@@ -46,7 +46,9 @@ app.get('/stock/:stockSymbol', (req, res) => {
 */
 
 app.get('/stock', (req, res) => { 
-    axios.get(urlIntra, { 
+    const stockSymbol = req.params.stockSymbol;
+    const urlInfo = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stockSymbol}&interval=5min&apikey=${apiKey}`
+    axios.get(urlInfo, { 
         headers: {'User-Agent': 'request'}
     })
     .then((response) => {
