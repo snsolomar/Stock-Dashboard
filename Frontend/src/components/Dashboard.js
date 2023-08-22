@@ -6,8 +6,6 @@ import Overview from './Overview';
 import Details from './Details';
 import Chart from './Chart';
 import ConvertDateTime from '../utils/helperFunctions/ConvertDateTime';
-import { monthlyHistoricalData } from '../constants/mockmonthly';
-import { MockWeeklyHistoricalData } from '../constants/MockWeekly';
 import { mockDailyHistoricalData } from '../constants/mockdaily';
 
 const Dashboard = () => {
@@ -27,7 +25,7 @@ const Dashboard = () => {
       <div className='col-span-1 md:col-span-2 xl:col-span-3 row-span-1 flex justify-start items-center'>
         <Header 
           name={mockCompanyDetails.Name}
-          onStockSelected={setSelectedStockSymbol} 
+          setSelectedStockSymbol={setSelectedStockSymbol} 
         >
         </Header>
         </div>

@@ -6,7 +6,7 @@ import { mockSearchResults } from '../constants/mock';
 const Search = ( {onStockSelected}) => {
     const [input, setInput] = useState("")
     const [bestMatches, setBestMatches] = useState([]);
-
+    
     const handleSearch = () => {
         if (bestMatches && bestMatches.length > 0) {
             const selectedSymbol = bestMatches[0]["1. symbol"];  // Assume the first match is the best match.
@@ -59,7 +59,7 @@ const Search = ( {onStockSelected}) => {
             </button>
 
             {input && bestMatches.length > 0 ? (
-                <SearchResults results={bestMatches}/>
+                <SearchResults results={bestMatches} onStockSelected={onStockSelected} />
             ) : null}
         </div>
     )
