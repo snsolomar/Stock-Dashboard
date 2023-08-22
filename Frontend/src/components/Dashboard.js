@@ -15,6 +15,8 @@ const Dashboard = () => {
   console.log(selectedStockSymbol);
   // Add state for storing company details
   const [companyDetails, setCompanyDetails] = useState({});
+  // Add state for storing current quote
+  const [currentQuote, setCurrentQuote] = useState({});
 
   useEffect(() => {
     console.log('Inside useEffect, selectedStockSymbol:', selectedStockSymbol);
