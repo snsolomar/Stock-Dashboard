@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import Cards from './Cards';
-import { dailyHistoricalData, mockCompanyDetails, mockCurrentQuote } from '../constants/mock';
+import { dailyHistoricalData, mockCompanyDetails, currentQuote } from '../constants/mock';
 import Header from './Header';
 import Overview from './Overview';
 import Details from './Details';
@@ -19,19 +19,39 @@ const Dashboard = () => {
   const [currentQuote, setCurrentQuote] = useState({});
 
   useEffect(() => {
-    console.log('Inside useEffect, selectedStockSymbol:', selectedStockSymbol);
+    const abortController = new AbortController();
+    
     if (selectedStockSymbol) {
         // Fetch the stock details from the server
-        fetch(`http://localhost:3001/stock/${selectedStockSymbol}`)
+        fetch(`http://localhost:3001/stock/${selectedStockSymbol}`, { signal: abortController.signal })
             .then(response => response.json())
             .then(data => {
                 setCompanyDetails(data);
             })
             .catch(error => {
-                console.error("Error fetching stock details:", error);
+                if (error.name !== 'AbortError') {
+                    console.error("Error fetching stock details:", error);
+                }
+            });
+
+        fetch(`http://127.0.0.1:3001/searchCurrentQuote/${selectedStockSymbol}`, { signal: abortController.signal })
+            .then(response => response.json())
+            .then(data => {
+              setCurrentQuote(data);
+            })
+            .catch(error => {
+                if (error.name !== 'AbortError') {
+                    console.error("Error fetching current stock quote:", error);
+                }
             });
     }
+
+    return () => {
+        abortController.abort();
+    };
+
 }, [selectedStockSymbol]);
+
 
 
   const chartData = Object.entries(mockDailyHistoricalData["Time Series (Daily)"]).map(([date, data]) => {
@@ -55,17 +75,17 @@ const Dashboard = () => {
         </div>
       <div>
         <Overview 
-          symbol={selectedStockSymbol || mockCurrentQuote['Global Quote']['01. symbol']}
-          price={mockCurrentQuote['Global Quote']['05. price']}
-          change={mockCurrentQuote['Global Quote']['09. change']}
-          changePercent={mockCurrentQuote['Global Quote']['10. change percent']}
-          currency={mockCompanyDetails.Currency}
+            symbol={selectedStockSymbol || (currentQuote['Global Quote'] && currentQuote['Global Quote']['01. symbol'])}
+            price={currentQuote['Global Quote'] && currentQuote['Global Quote']['05. price']}
+            change={currentQuote['Global Quote'] && currentQuote['Global Quote']['09. change']}
+            changePercent={currentQuote['Global Quote'] && currentQuote['Global Quote']['10. change percent']}
+            currency={mockCompanyDetails.Currency}
         ></Overview>
         </div>
       <div className='row-span-2 xl-row-span-3'>
         <Details 
         details={companyDetails} 
-        summary={mockCurrentQuote}
+        summary={currentQuote}
         ></Details>
         </div>
     </div>
