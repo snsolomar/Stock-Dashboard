@@ -36,10 +36,10 @@ app.get('/stock/:stockSymbol', (req, res) => {
 });
 
 /**
- * The endpoint we will use to get Intraday stock data
+ * The endpoint we will use to fetch Intraday stock data
 */
 
-app.get('/stock', (req, res) => {
+app.get('/stock/intraday/:stockSymbol', (req, res) => {
     alphavantage.fetchIntradayData(req.params.stockSymbol)
     .then((response) => {
         res.json(response.data);
@@ -51,8 +51,38 @@ app.get('/stock', (req, res) => {
 });
 
 /**
+ * The endpoint we will use to fetch daily stock data
+*/
+
+app.get('/stock/daily/:stockSymbol', (req, res) => {
+    alphavantage.fetchDailyData(req.params.stockSymbol)
+    .then((response) => {
+        res.json(response.data);
+    })
+    .catch((err) => {
+        console.error('Error:', err);
+        res.status(500).send('An error occurred while fetching the data'); 
+    });
+});
+
+/**
+ * The endpoint we will use to fetch monthly stock data
+*/
+
+app.get('/stock/monthly/:stockSymbol', (req, res) => {
+    alphavantage.fetchMonthlyData(req.params.stockSymbol)
+    .then((response) => {
+        res.json(response.data);
+    })
+    .catch((err) => {
+        console.error('Error:', err);
+        res.status(500).send('An error occurred while fetching the data'); 
+    });
+});
+
+/**
  * Fetches stock symbols based on the search query
- */
+*/
 
 app.get('/searchResults/:query', (req, res) => {
     alphavantage.searchStocks(req.params.query)
