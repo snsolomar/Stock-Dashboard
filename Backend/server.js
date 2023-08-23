@@ -1,7 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const axios = require('axios');
+// const axios = require('axios');
 const cors = require('cors');
+
+const alphavantage = require('./Modules/alphavantage');
 
 // imported constants
 const urlIntra = require('./constants/url');
@@ -27,35 +29,24 @@ app.get('/', (req, res) => {
 */
 
 app.get('/stock/:stockSymbol', (req, res) => { 
-    const stockSymbol = req.params.stockSymbol;
-    const urlInfo = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${stockSymbol}&apikey=${apiKey}`;
-    
-    axios.get(urlInfo, { 
-        headers: {'User-Agent': 'request'}
-    })
+  alphavantage.fetchCompanyDetails(req.params.stockSymbol)
     .then((response) => {
-        // Send the stock data as JSON
-        res.json(response.data); 
+      res.json(response.data);
     })
     .catch((err) => {
-        console.error('Error:', err);
-        res.status(500).send('An error occurred while fetching the data'); 
+      console.error('Error:', err);
+      res.status(500).send('An error occurred while fetching the data'); 
     });
 });
 
 /**
- * The endpoint we will use to get stock data
+ * The endpoint we will use to get Intraday stock data
 */
 
-app.get('/stock', (req, res) => { 
-    const stockSymbol = req.params.stockSymbol;
-    const urlInfo = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stockSymbol}&interval=5min&apikey=${apiKey}`
-    axios.get(urlInfo, { 
-        headers: {'User-Agent': 'request'}
-    })
+app.get('/stock', (req, res) => {
+    alphavantage.fetchIntradayData(req.params.stockSymbol)
     .then((response) => {
-        // Send the stock data as JSON
-        res.json(response.data); 
+        res.json(response.data);
     })
     .catch((err) => {
         console.error('Error:', err);
@@ -66,16 +57,10 @@ app.get('/stock', (req, res) => {
 /**
  * Fetches stock symbols based on the search query
  */
-app.get('/searchResults/:query', (req, res) => {
-    const searchQuery = req.params.query;
-    
-    const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchQuery}&apikey=${apiKey}`;
 
-    axios.get(url, { 
-        headers: {'User-Agent': 'request'}
-    })
+app.get('/searchResults/:query', (req, res) => {
+    alphavantage.searchStocks(req.params.query)
     .then((response) => {
-        // Send the search results as JSON
         res.json(response.data);
     })
     .catch((err) => {
@@ -87,17 +72,10 @@ app.get('/searchResults/:query', (req, res) => {
 /**
  * Fetches current stock quote based on the search query
  */
+
 app.get('/searchCurrentQuote/:query', (req, res) => {
-    const searchQuery = req.params.query;
-    
-    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${searchQuery}&apikey=${apiKey}`;
-
-
-    axios.get(url, { 
-        headers: {'User-Agent': 'request'}
-    })
+    alphavantage.searchCurrentQuote(req.params.query)
     .then((response) => {
-        // Send the search results as JSON
         res.json(response.data);
     })
     .catch((err) => {
@@ -105,7 +83,6 @@ app.get('/searchCurrentQuote/:query', (req, res) => {
         res.status(500).send('An error occurred while fetching the data');
     });
 });
-
 
 app.listen(port, () => {
 
