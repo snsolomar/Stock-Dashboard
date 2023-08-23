@@ -1,15 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-// const axios = require('axios');
 const cors = require('cors');
 
 const alphavantage = require('./Modules/alphavantage');
 
-// imported constants
-const urlIntra = require('./constants/url');
-const apiKey = require('./constants/apiKey');
-
-
+// init express and port
 const app = express()
 const port = 3001
 
@@ -18,6 +13,7 @@ const port = 3001
 app.use(express.json());
 app.use(cors());
 
+// dev test
 app.get('/', (req, res) => {
 
     res.send('hello world')
