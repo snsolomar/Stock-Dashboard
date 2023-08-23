@@ -5,7 +5,7 @@ const cors = require('cors');
 
 // imported constants
 const urlIntra = require('./constants/url');
-const apiKey = require('./constants/apiKey')
+const apiKey = require('./constants/apiKey');
 
 
 const app = express()
