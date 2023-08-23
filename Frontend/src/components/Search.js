@@ -7,6 +7,11 @@ const Search = ( {onStockSelected}) => {
     const [input, setInput] = useState("")
     const [bestMatches, setBestMatches] = useState([]);
     
+    const clear = () => {
+        setInput("");
+        setBestMatches([]); 
+    };
+
     const handleSearch = () => {
         if (bestMatches && bestMatches.length > 0) {
             const selectedSymbol = bestMatches[0]["1. symbol"];  // Assume the first match is the best match.
@@ -14,11 +19,6 @@ const Search = ( {onStockSelected}) => {
             onStockSelected(selectedSymbol);
         }
     }
-
-    const clear = () => {
-        setInput("");
-        setBestMatches([]); 
-    };
     
 
     return (
