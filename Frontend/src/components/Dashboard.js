@@ -8,6 +8,7 @@ import Chart from './Chart';
 import ConvertDateTime from '../utils/helperFunctions/ConvertDateTime';
 import { mockDailyHistoricalData } from '../constants/mockdaily';
 
+
 const Dashboard = () => {
 
   // Add state for the selected stock symbol
@@ -21,9 +22,12 @@ const Dashboard = () => {
   useEffect(() => {
     const abortController = new AbortController();
     
+    const DevApi = process.env.REACT_APP_DEV_API_URL;
+
+    // ${DevApi}
     if (selectedStockSymbol) {
         // Fetch the stock details from the server
-        fetch(`http://localhost:3001/stock/${selectedStockSymbol}`, { signal: abortController.signal })
+        fetch(`${DevApi}/stock/${selectedStockSymbol}`, { signal: abortController.signal })
             .then(response => response.json())
             .then(data => {
                 setCompanyDetails(data);
@@ -34,7 +38,7 @@ const Dashboard = () => {
                 }
             });
 
-        fetch(`http://127.0.0.1:3001/searchCurrentQuote/${selectedStockSymbol}`, { signal: abortController.signal })
+        fetch(`${DevApi}/searchCurrentQuote/${selectedStockSymbol}`, { signal: abortController.signal })
             .then(response => response.json())
             .then(data => {
               setCurrentQuote(data);

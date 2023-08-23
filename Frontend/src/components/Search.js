@@ -30,9 +30,12 @@ const Search = ( {onStockSelected}) => {
             placeholder='Seach Stock Symbol'
             onChange={(event) => {
                 const inputValue = event.target.value;
+
+                const DevApi = process.env.REACT_APP_DEV_API_URL;
+                
                 setInput(inputValue);
             
-                fetch(`http://localhost:3001/searchResults/${inputValue}`)
+                fetch(`${DevApi}/searchResults/${inputValue}`)
                 .then(response => response.json())
                 .then(data => {
                     // Assuming the API's search results are in a property called bestMatches
