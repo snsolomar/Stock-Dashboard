@@ -31,4 +31,23 @@ function fetchIntradayData(stockSymbol) {
     });
 }
 
+function searchStocks(query) {
+    return fetchFromAlphavantage('', {
+        function: 'SYMBOL_SEARCH',
+        keywords: query
+    });
+}
 
+function searchCurrentQuote(query) {
+    return fetchFromAlphavantage('', {
+        function: 'GLOBAL_QUOTE',
+        symbol: query
+    });
+}
+
+module.exports = {
+    fetchCompanyDetails,
+    fetchIntradayData,
+    searchStocks,
+    searchCurrentQuote
+};
