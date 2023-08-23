@@ -3,14 +3,14 @@ import Cards from './Cards';
 
 const Details = ({ details, summary }) => {
    const CompanyLists = ({ details, summary }) => {
-      // const companyDetails = {
-      //    "Name": details.Name,
-      //    "Country": details.Country,
-      //    "Currency": details.Currency,
-      //    "Exchange": details.Exchange,
-      //    "Sector": details.Sector,
-      //    "Industry": details.Industry
-      // };
+   //    const companyDetails = {
+   //       "Name": details.Name,
+   //       "Country": details.Country,
+   //       "Currency": details.Currency,
+   //       "Exchange": details.Exchange,
+   //       "Sector": details.Sector,
+   //       "Industry": details.Industry
+   //    };
 
       const globalQuote = summary && summary["Global Quote"] ? summary["Global Quote"] : {};
       

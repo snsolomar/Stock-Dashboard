@@ -1,19 +1,19 @@
 require('dotenv').config();
 const express = require('express');
-const axios = require('axios');
+const cors = require('cors');
 
-// imported constants
-const urlIntra = require('./constants/url');
-const apiKey = require('./constants/apiKey')
+const alphavantage = require('./Modules/alphavantage');
 
-
+// init express and port
 const app = express()
-const port = 3000
+const port = 3001
 
 
 // init application
 app.use(express.json());
+app.use(cors());
 
+// dev test
 app.get('/', (req, res) => {
 
     res.send('hello world')
@@ -25,15 +25,24 @@ app.get('/', (req, res) => {
 */
 
 app.get('/stock/:stockSymbol', (req, res) => { 
-    const stockSymbol = req.params.stockSymbol;
-    const urlInfo = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${stockSymbol}&apikey=${apiKey}`;
-    
-    axios.get(urlInfo, { 
-        headers: {'User-Agent': 'request'}
-    })
+  alphavantage.fetchCompanyDetails(req.params.stockSymbol)
     .then((response) => {
-        // Send the stock data as JSON
-        res.json(response.data); 
+      res.json(response.data);
+    })
+    .catch((err) => {
+      console.error('Error:', err);
+      res.status(500).send('An error occurred while fetching the data'); 
+    });
+});
+
+/**
+ * The endpoint we will use to get Intraday stock data
+*/
+
+app.get('/stock', (req, res) => {
+    alphavantage.fetchIntradayData(req.params.stockSymbol)
+    .then((response) => {
+        res.json(response.data);
     })
     .catch((err) => {
         console.error('Error:', err);
@@ -42,27 +51,34 @@ app.get('/stock/:stockSymbol', (req, res) => {
 });
 
 /**
- * The endpoint we will use to get stock data
-*/
+ * Fetches stock symbols based on the search query
+ */
 
-app.get('/stock', (req, res) => { 
-    const stockSymbol = req.params.stockSymbol;
-    const urlInfo = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stockSymbol}&interval=5min&apikey=${apiKey}`
-    axios.get(urlInfo, { 
-        headers: {'User-Agent': 'request'}
-    })
+app.get('/searchResults/:query', (req, res) => {
+    alphavantage.searchStocks(req.params.query)
     .then((response) => {
-        // Send the stock data as JSON
-        res.json(response.data); 
+        res.json(response.data);
     })
     .catch((err) => {
         console.error('Error:', err);
-        res.status(500).send('An error occurred while fetching the data'); 
+        res.status(500).send('An error occurred while fetching the data');
     });
 });
 
+/**
+ * Fetches current stock quote based on the search query
+ */
 
-
+app.get('/searchCurrentQuote/:query', (req, res) => {
+    alphavantage.searchCurrentQuote(req.params.query)
+    .then((response) => {
+        res.json(response.data);
+    })
+    .catch((err) => {
+        console.error('Error:', err);
+        res.status(500).send('An error occurred while fetching the data');
+    });
+});
 
 app.listen(port, () => {
 
