@@ -8,7 +8,6 @@ const alphavantage = require('./Modules/alphavantage');
 const app = express()
 const port = 3001
 
-
 // init application
 app.use(express.json());
 app.use(cors());
