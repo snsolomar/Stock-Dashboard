@@ -10,6 +10,11 @@ model Watchlist {
   name String
 }
 
+model Watchlist_stocks {
+  id Int @id @default(autoincrement())
+  name String
+}
+
 
 
 datasource db {

@@ -7,3 +7,9 @@ GET http://127.0.0.1:3001/searchResults/BA
 ### GET Current Stock Quote
 GET http://127.0.0.1:3001/searchCurrentQuote/IBM
 
+
+### GET watchlist 
+GET http://127.0.0.1:3001/watchlist
+
+### GET stocks by watchlist id 
+GET http://127.0.0.1:3001/watchlist/1/stocks
