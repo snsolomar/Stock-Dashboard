@@ -3,7 +3,7 @@
 const axios = require('axios');
 
 const BASE_URL = 'https://www.alphavantage.co/query';
-const apiKey = require('../constants/apiKey');
+const apiKey = require('../../constants/apiKey');
 
 // Abstract the common axios call, so you don't repeat headers and other common parameters
 function fetchFromAlphavantage(endpoint, params) {

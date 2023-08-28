@@ -13,3 +13,9 @@ GET http://127.0.0.1:3001/watchlist
 
 ### GET stocks by watchlist id 
 GET http://127.0.0.1:3001/watchlist/1/stocks
+
+### PATCH watchlist name by watchlist id 
+PATCH  http://127.0.0.1:3001/watchlist/1/name
+Content-Type: application/json
+
+{"name":"Technology"}

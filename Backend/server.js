@@ -3,10 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const { pool } = require('./Modules/pool');
 
-// Now you can use the pool for your database operations
+const watchlistFuncs = require('./Modules/WatchListFunctions/watchFunctions');
 
-
-const alphavantage = require('./Modules/alphavantage');
+const alphavantage = require('./Modules/Alphavantage/alphaFunctions');
 
 // init express and port
 const app = express()
@@ -88,8 +87,8 @@ app.get('/searchCurrentQuote/:query', (req, res) => {
 */
 app.get('/watchlist', async (req, res) => {
     try {
-        const result = await pool.query('SELECT name FROM Watchlist');
-        res.json(result.rows);
+        const watchlists = await watchlistFuncs.getWatchlists()
+        res.json(watchlists);
     } catch (error) {
         console.error('Error fetching watchlists:', error);
         res.status(500).send('Failed to fetch watchlists');
@@ -97,16 +96,36 @@ app.get('/watchlist', async (req, res) => {
 });
 
 /**
+ * Updates watchlist name
+*/
+
+app.patch('/watchlist/:id/name', async (req, res) => {
+    const watchListName = req.body.name;
+
+    if (!watchListName) {
+        return res.status(400).send('Name is required.');
+    }
+
+    try {
+        const updateName = await watchlistFuncs.updateWatchlistNameById(req.params.id, watchListName);
+        if (updateName){
+            res.json({ message: "Watchlist name updated successfully!", name: updateName[0].name});
+        } else {
+            res.status(404).send("Watchlist not found.");
+        }
+    } catch (error) {
+        console.error('Error updating watchlist name:', error);
+        res.status(500).send('Failed to update watchlist name.');
+    }
+})
+
+/**
  * Fetches selected stock from watchlists 
 */
 app.get('/watchlist/:watchlistId/stocks', async (req, res) => {
-    const watchlistId = req.params.watchlistId;
-
     try {
-        const query = 'SELECT name, symbol FROM watchlist_stocks WHERE watchlist_id = $1';
-        const values = [watchlistId];
-        const result = await pool.query(query, values);
-        res.json(result.rows);
+        const getStocks = await watchlistFuncs.getStocksByWatchlistId(req.params.watchlistId)
+        res.json(getStocks);
     } catch (error) {
         console.error('Error fetching stocks for the watchlist:', error);
         res.status(500).send('Failed to fetch stocks for the watchlist');
