@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 // import Cards from './Cards';
-import { dailyHistoricalData, mockCompanyDetails, currentQuote } from '../constants/mock';
 import Header from './Header';
 import Overview from './Overview';
 import Details from './Details';
 import Chart from './Chart';
-import ConvertDateTime from '../utils/helperFunctions/ConvertDateTime';
 import { mockDailyHistoricalData } from '../constants/mockdaily';
 
 

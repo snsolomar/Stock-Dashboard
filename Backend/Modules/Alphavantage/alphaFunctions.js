@@ -31,6 +31,20 @@ function fetchIntradayData(stockSymbol) {
     });
 }
 
+function fetchDailyData(stockSymbol) {
+    return fetchFromAlphavantage('', {
+        function: 'TIME_SERIES_DAILY',
+        symbol: stockSymbol
+    });
+}
+
+function fetchMonthlyData(stockSymbol) {
+    return fetchFromAlphavantage('', {
+        function: 'TIME_SERIES_MONTHLY',
+        symbol: stockSymbol
+    });
+}
+
 function searchStocks(query) {
     return fetchFromAlphavantage('', {
         function: 'SYMBOL_SEARCH',
@@ -48,6 +62,8 @@ function searchCurrentQuote(query) {
 module.exports = {
     fetchCompanyDetails,
     fetchIntradayData,
+    fetchDailyData,
+    fetchMonthlyData,
     searchStocks,
     searchCurrentQuote
 };
