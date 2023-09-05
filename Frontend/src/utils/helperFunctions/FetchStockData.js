@@ -1,4 +1,4 @@
-import formatStockData from './formatStockData';
+import formatStockData from "../../constants/FetchStockData";
 
 const FetchStockData = async (selectedDateRange, selectedStockSymbol, setChartData) => {
     const DevApi = process.env.REACT_APP_DEV_API_URL;

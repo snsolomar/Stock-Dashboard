@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import SearchResults from './SearchResults';
-import { mockSearchResults } from '../constants/mock';
+
 
 const Search = ( {onStockSelected}) => {
     const [input, setInput] = useState("")
