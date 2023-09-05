@@ -1,3 +1,5 @@
+// Used in Search.js
+
 const FetchSearchResults = async (inputValue) => {
     const DevApi = process.env.REACT_APP_DEV_API_URL;
 

@@ -37,18 +37,6 @@ const Chart = ({ initialData, data, chartTitle = 'Price Chart', fetchData }) => 
           text: '5Y'
       }]
     },
-    // xAxis: {
-    //   events: {
-    //       setExtremes: function(e) {
-    //           const fromDate = new Date(e.min);
-    //           const toDate = new Date(e.max);
-    //           // You can now use fromDate and toDate to fetch data for the specific range from your backend
-    //           fetchData(fromDate, toDate).then(data => {
-    //               setChartData(data);
-    //           });
-    //         }
-    //     }
-    // },
     series: [{
       name: 'Stock Value',
       data: data, 
