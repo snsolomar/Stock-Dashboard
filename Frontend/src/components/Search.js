@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import SearchResults from './SearchResults';
+import FetchSearchResults from '../utils/helperFunctions/FetchSearchResults';
 
 
 const Search = ( {onStockSelected}) => {
@@ -29,17 +30,12 @@ const Search = ( {onStockSelected}) => {
             className='w-full px-4 py-2 focus:outline-none rounded-md'
             placeholder='Seach Stock Symbol'
             onChange={(event) => {
-                const inputValue = event.target.value;
-
-                const DevApi = process.env.REACT_APP_DEV_API_URL;
-                
+                const inputValue = event.target.value;                
                 setInput(inputValue);
             
-                fetch(`${DevApi}/searchResults/${inputValue}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Assuming the API's search results are in a property called bestMatches
-                    setBestMatches(data.bestMatches || []);
+                FetchSearchResults(inputValue)
+                .then(matches => {
+                    setBestMatches(matches);
                 })
                 .catch(error => {
                     console.error("Error fetching search results:", error);
