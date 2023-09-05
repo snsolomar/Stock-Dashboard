@@ -5,6 +5,9 @@ import Overview from './Overview';
 import Details from './Details';
 import Chart from './Chart';
 import { mockDailyHistoricalData } from '../constants/mockdaily';
+import FetchStockData from './FetchStockData';
+import formatStockData from './formatStockData';
+
 
 
 const Dashboard = () => {
@@ -16,6 +19,7 @@ const Dashboard = () => {
   const [companyDetails, setCompanyDetails] = useState({});
   // Add state for storing current quote
   const [currentQuote, setCurrentQuote] = useState({});
+  const [selectedDateRange, setSelectedDateRange] = useState('intraday');
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {

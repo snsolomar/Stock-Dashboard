@@ -15,7 +15,7 @@ const Search = ( {onStockSelected}) => {
     const handleSearch = () => {
         if (bestMatches && bestMatches.length > 0) {
             const selectedSymbol = bestMatches[0]["1. symbol"];  // Assume the first match is the best match.
-            console.log('Selected symbol inside handleSearch:', selectedSymbol);
+            // console.log('Selected symbol inside handleSearch:', selectedSymbol);
             onStockSelected(selectedSymbol);
         }
     }

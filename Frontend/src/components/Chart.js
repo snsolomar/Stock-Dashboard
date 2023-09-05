@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 
-const Chart = ({ initialData, data, chartTitle = 'Input Stock Name', fetchData }) => {
+const Chart = ({ initialData, data, chartTitle = 'Price Chart', fetchData }) => {
   const [chartData, setChartData] = useState(initialData);
 
   const options = {
@@ -51,7 +51,7 @@ const Chart = ({ initialData, data, chartTitle = 'Input Stock Name', fetchData }
     // },
     series: [{
       name: 'Stock Value',
-      data: data, // change to chartData once you build the api
+      data: data, 
       tooltip: {
         valueDecimals: 2
       }
