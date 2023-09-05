@@ -19,3 +19,6 @@ PATCH  http://127.0.0.1:3001/watchlist/1/name
 Content-Type: application/json
 
 {"name":"Technology"}
+
+### GET intraday by stock symbol 
+GET http://127.0.0.1:3001/stock/intraday/ba

@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [companyDetails, setCompanyDetails] = useState({});
   // Add state for storing current quote
   const [currentQuote, setCurrentQuote] = useState({});
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -34,6 +35,23 @@ const Dashboard = () => {
                 if (error.name !== 'AbortError') {
                     console.error("Error fetching stock details:", error);
                 }
+            });
+
+        fetch(`${DevApi}/stock/intraday/${selectedStockSymbol}`, { signal: abortController.signal })
+            .then(response =>response.json())
+            .then(data => {
+              const formattedData = Object.entries(data["Time Series (5min)"]).map(([date, data]) => {
+                return [
+                  new Date(date).getTime(),  
+                  parseFloat(data["4. close"])  
+                ];
+              }).reverse();
+              setChartData(formattedData);
+            })
+            .catch(error => {
+              if (error.name !== 'AbortError') {
+                console.error("Error fetching intraday stock data:", error);
+              }
             });
 
         fetch(`${DevApi}/searchCurrentQuote/${selectedStockSymbol}`, { signal: abortController.signal })
@@ -56,12 +74,12 @@ const Dashboard = () => {
 
 
 
-  const chartData = Object.entries(mockDailyHistoricalData["Time Series (Daily)"]).map(([date, data]) => {
-    return [
-        new Date(date).getTime(),  // Convert date to timestamp
-        parseFloat(data["4. close"])  // Convert closing price string to number
-    ];
-  }).reverse();
+  // const chartData = Object.entries(mockDailyHistoricalData["Time Series (Daily)"]).map(([date, data]) => {
+  //   return [
+  //       new Date(date).getTime(),  // Convert date to timestamp
+  //       parseFloat(data["4. close"])  // Convert closing price string to number
+  //   ];
+  // }).reverse();
 
   return (
     <div className='h-screen grid grid-cols-1 md:grid-cols-2 xl:grids-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 auto-rows-fr gap-6 p-10 font-quicksand'>

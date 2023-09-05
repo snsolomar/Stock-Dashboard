@@ -59,6 +59,7 @@ const Chart = ({ initialData, data, chartTitle = 'Input Stock Name', fetchData }
   };
 
   return <HighchartsReact
+    key={JSON.stringify(data)} // rerender chart when data changes
     highcharts={Highcharts}
     constructorType={'stockChart'}
     options={options}
