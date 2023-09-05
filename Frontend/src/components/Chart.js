@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import Highcharts from 'highcharts/highstock'
-import HighchartsReact from 'highcharts-react-official'
+import React, { useState } from 'react';
+import Highcharts from 'highcharts/highstock';
+import HighchartsReact from 'highcharts-react-official';
 
-const Chart = ({ initialData, data, chartTitle = 'Price Chart', fetchData }) => {
-  const [chartData, setChartData] = useState(initialData);
-
+const Chart = ({ data, chartTitle = 'Price Chart', fetchData }) => {
   const options = {
     title: {
       text: chartTitle
@@ -37,22 +35,35 @@ const Chart = ({ initialData, data, chartTitle = 'Price Chart', fetchData }) => 
           text: '5Y'
       }]
     },
+    chart: {
+      events: {
+        load: function() {
+          this.rangeSelector.buttons.forEach((button, index) => {
+            button.element.onclick = () => {
+              fetchData(button.text); 
+            };
+          });
+        }
+      }
+    },
     series: [{
       name: 'Stock Value',
-      data: data, 
+      data: data,
       tooltip: {
         valueDecimals: 2
       }
     }]
   };
 
-  return <HighchartsReact
-    key={JSON.stringify(data)} // rerender chart when data changes
-    highcharts={Highcharts}
-    constructorType={'stockChart'}
-    options={options}
-  />;
+  return (
+    <HighchartsReact
+      key={JSON.stringify(data)} // rerender chart when data changes
+      highcharts={Highcharts}
+      constructorType={'stockChart'}
+      options={options}
+    />
+  );
 }
 
+export default Chart;
 
-export default Chart

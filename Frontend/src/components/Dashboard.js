@@ -6,6 +6,7 @@ import Chart from './Chart';
 import FetchStockData from '../utils/helperFunctions/FetchStockData';
 import FetchCurrentQuote from '../utils/helperFunctions/FetchCurrentQuote';
 import FetchStockDetails from '../utils/helperFunctions/FetchStockDetails';
+import FetchDateRangeData from '../constants/FetchDateRangeData';
 
 const Dashboard = () => {
   const [selectedStockSymbol, setSelectedStockSymbol] = useState('');
@@ -19,6 +20,7 @@ const Dashboard = () => {
 
     if (selectedStockSymbol) {
         FetchStockData(selectedDateRange, selectedStockSymbol, setChartData);
+        
 
         // Fetch the stock details from the server
         FetchStockDetails(selectedStockSymbol, abortController.signal)
