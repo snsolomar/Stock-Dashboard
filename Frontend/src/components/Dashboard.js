@@ -4,6 +4,8 @@ import Overview from './Overview';
 import Details from './Details';
 import Chart from './Chart';
 import FetchStockData from '../utils/helperFunctions/FetchStockData';
+import FetchCurrentQuote from '../utils/helperFunctions/FetchCurrentQuote';
+import FetchStockDetails from '../utils/helperFunctions/FetchStockDetails';
 
 const Dashboard = () => {
   const [selectedStockSymbol, setSelectedStockSymbol] = useState('');
@@ -14,33 +16,27 @@ const Dashboard = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    const DevApi = process.env.REACT_APP_DEV_API_URL;
 
     if (selectedStockSymbol) {
         FetchStockData(selectedDateRange, selectedStockSymbol, setChartData);
 
         // Fetch the stock details from the server
-        fetch(`${DevApi}/stock/${selectedStockSymbol}`, { signal: abortController.signal })
-            .then(response => response.json())
-            .then(data => {
-                setCompanyDetails(data);
-            })
-            .catch(error => {
-                if (error.name !== 'AbortError') {
-                    console.error("Error fetching stock details:", error);
-                }
-            });
-
-        fetch(`${DevApi}/searchCurrentQuote/${selectedStockSymbol}`, { signal: abortController.signal })
-            .then(response => response.json())
-            .then(data => {
-                setCurrentQuote(data);
-            })
-            .catch(error => {
-                if (error.name !== 'AbortError') {
-                    console.error("Error fetching current stock quote:", error);
-                }
-            });
+        FetchStockDetails(selectedStockSymbol, abortController.signal)
+          .then(data => {
+              setCompanyDetails(data);
+          })
+          .catch(error => {
+              console.error("Error fetching stock details:", error);
+          });
+        
+        // Fetch the stock quote from the server
+        FetchCurrentQuote(selectedStockSymbol, abortController.signal)
+          .then(data => {
+              setCurrentQuote(data);
+          })
+          .catch(error => {
+              console.error("Error fetching current stock quote:", error);
+          });
     }
 
     return () => {
