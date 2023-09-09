@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import Highcharts from 'highcharts/highstock'
-import HighchartsReact from 'highcharts-react-official'
+import React, { useState } from 'react';
+import Highcharts from 'highcharts/highstock';
+import HighchartsReact from 'highcharts-react-official';
 
-const Chart = ({ initialData, data, chartTitle = 'Input Stock Name', fetchData }) => {
-  const [chartData, setChartData] = useState(initialData);
-
+const Chart = ({ data, chartTitle = 'Price Chart', fetchData }) => {
   const options = {
     title: {
       text: chartTitle
@@ -37,33 +35,35 @@ const Chart = ({ initialData, data, chartTitle = 'Input Stock Name', fetchData }
           text: '5Y'
       }]
     },
-    // xAxis: {
-    //   events: {
-    //       setExtremes: function(e) {
-    //           const fromDate = new Date(e.min);
-    //           const toDate = new Date(e.max);
-    //           // You can now use fromDate and toDate to fetch data for the specific range from your backend
-    //           fetchData(fromDate, toDate).then(data => {
-    //               setChartData(data);
-    //           });
-    //         }
-    //     }
-    // },
+    chart: {
+      events: {
+        load: function() {
+          this.rangeSelector.buttons.forEach((button, index) => {
+            button.element.onclick = () => {
+              fetchData(button.text); 
+            };
+          });
+        }
+      }
+    },
     series: [{
       name: 'Stock Value',
-      data: data, // change to chartData once you build the api
+      data: data,
       tooltip: {
         valueDecimals: 2
       }
     }]
   };
 
-  return <HighchartsReact
-    highcharts={Highcharts}
-    constructorType={'stockChart'}
-    options={options}
-  />;
+  return (
+    <HighchartsReact
+      key={JSON.stringify(data)} // rerender chart when data changes
+      highcharts={Highcharts}
+      constructorType={'stockChart'}
+      options={options}
+    />
+  );
 }
 
+export default Chart;
 
-export default Chart

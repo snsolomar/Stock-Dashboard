@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import SearchResults from './SearchResults';
-import { mockSearchResults } from '../constants/mock';
+import FetchSearchResults from '../utils/helperFunctions/FetchSearchResults';
+
 
 const Search = ( {onStockSelected}) => {
     const [input, setInput] = useState("")
@@ -15,7 +16,7 @@ const Search = ( {onStockSelected}) => {
     const handleSearch = () => {
         if (bestMatches && bestMatches.length > 0) {
             const selectedSymbol = bestMatches[0]["1. symbol"];  // Assume the first match is the best match.
-            console.log('Selected symbol inside handleSearch:', selectedSymbol);
+            // console.log('Selected symbol inside handleSearch:', selectedSymbol);
             onStockSelected(selectedSymbol);
         }
     }
@@ -29,17 +30,12 @@ const Search = ( {onStockSelected}) => {
             className='w-full px-4 py-2 focus:outline-none rounded-md'
             placeholder='Seach Stock Symbol'
             onChange={(event) => {
-                const inputValue = event.target.value;
-
-                const DevApi = process.env.REACT_APP_DEV_API_URL;
-                
+                const inputValue = event.target.value;                
                 setInput(inputValue);
             
-                fetch(`${DevApi}/searchResults/${inputValue}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Assuming the API's search results are in a property called bestMatches
-                    setBestMatches(data.bestMatches || []);
+                FetchSearchResults(inputValue)
+                .then(matches => {
+                    setBestMatches(matches);
                 })
                 .catch(error => {
                     console.error("Error fetching search results:", error);
