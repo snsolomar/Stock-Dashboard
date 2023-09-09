@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import FetchDateRangeData from '../constants/FetchDateRangeData';
 
-const Chart = ({ data, chartTitle = 'Price Chart', fetchData }) => {
+const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
   const options = {
     title: {
       text: chartTitle
@@ -39,8 +40,10 @@ const Chart = ({ data, chartTitle = 'Price Chart', fetchData }) => {
       events: {
         load: function() {
           this.rangeSelector.buttons.forEach((button, index) => {
-            button.element.onclick = () => {
-              fetchData(button.text); 
+            button.element.onclick = (e) => {
+              console.log("Button clicked:", button.text);
+              const dateRange = FetchDateRangeData(button.text);
+              onRangeSelected(dateRange);
             };
           });
         }
@@ -57,7 +60,7 @@ const Chart = ({ data, chartTitle = 'Price Chart', fetchData }) => {
 
   return (
     <HighchartsReact
-      key={JSON.stringify(data)} // rerender chart when data changes
+      key={JSON.stringify(data)} 
       highcharts={Highcharts}
       constructorType={'stockChart'}
       options={options}

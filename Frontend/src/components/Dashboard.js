@@ -56,7 +56,7 @@ const Dashboard = () => {
         />
       </div>
       <div className='md:col-span-2 row-span-4'>
-        <Chart data={chartData} />
+        <Chart data={chartData} onRangeSelected={setSelectedDateRange} />
       </div>
       <div>
         <Overview 
