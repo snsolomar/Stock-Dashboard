@@ -13,7 +13,7 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
       buttons: [{
           type: 'day',
           count: 1,
-          text: '1D'
+          text: '1D',
       }, {
           type: 'day',
           count: 5,
@@ -42,6 +42,7 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
           this.rangeSelector.buttons.forEach((button, index) => {
             button.element.onclick = (e) => {
               console.log("Button clicked:", button.textStr);
+;
               const dateRange = FetchDateRangeData(button.textStr);
               onRangeSelected(dateRange);
             };
