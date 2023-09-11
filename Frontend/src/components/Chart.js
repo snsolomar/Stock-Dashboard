@@ -41,8 +41,8 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
         load: function() {
           this.rangeSelector.buttons.forEach((button, index) => {
             button.element.onclick = (e) => {
-              console.log("Button clicked:", button.text);
-              const dateRange = FetchDateRangeData(button.text);
+              console.log("Button clicked:", button.textStr);
+              const dateRange = FetchDateRangeData(button.textStr);
               onRangeSelected(dateRange);
             };
           });
