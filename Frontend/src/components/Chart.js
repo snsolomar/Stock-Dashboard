@@ -3,7 +3,9 @@ import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import FetchDateRangeData from '../constants/FetchDateRangeData';
 
+
 const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
+
   const options = {
     title: {
       text: chartTitle
@@ -14,41 +16,69 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
           type: 'day',
           count: 1,
           text: '1D',
+          events: {
+              click: function() {
+                  const dateRange = FetchDateRangeData('1D');
+                  onRangeSelected(dateRange);
+                  return false; // prevents the default behavior
+              }
+          }
       }, {
           type: 'day',
           count: 5,
-          text: '5D'
+          text: '5D',
+          events: {
+              click: function() {
+                  const dateRange = FetchDateRangeData('5D');
+                  onRangeSelected(dateRange);
+                  return false;
+              }
+          }
       }, {
           type: 'month',
           count: 1,
-          text: '1M'
+          text: '1M',
+          events: {
+              click: function() {
+                  const dateRange = FetchDateRangeData('1M');
+                  onRangeSelected(dateRange);
+                  return false;
+              }
+          }
       }, {
           type: 'month',
           count: 6,
-          text: '6M'
+          text: '6M',
+          events: {
+              click: function() {
+                  const dateRange = FetchDateRangeData('6M');
+                  onRangeSelected(dateRange);
+                  return false;
+              }
+          }
       }, {
           type: 'year',
           count: 1,
-          text: '1Y'
+          text: '1Y',
+          events: {
+              click: function() {
+                  const dateRange = FetchDateRangeData('1Y');
+                  onRangeSelected(dateRange);
+                  return false;
+              }
+          }
       }, {
           type: 'year',
           count: 5,
-          text: '5Y'
+          text: '5Y',
+          events: {
+              click: function() {
+                  const dateRange = FetchDateRangeData('5Y');
+                  onRangeSelected(dateRange);
+                  return false;
+              }
+          }
       }]
-    },
-    chart: {
-      events: {
-        load: function() {
-          this.rangeSelector.buttons.forEach((button, index) => {
-            button.element.onclick = (e) => {
-              console.log("Button clicked:", button.textStr);
-;
-              const dateRange = FetchDateRangeData(button.textStr);
-              onRangeSelected(dateRange);
-            };
-          });
-        }
-      }
     },
     series: [{
       name: 'Stock Value',
@@ -60,8 +90,7 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
   };
 
   return (
-    <HighchartsReact
-      key={JSON.stringify(data)} 
+    <HighchartsReact 
       highcharts={Highcharts}
       constructorType={'stockChart'}
       options={options}
@@ -70,4 +99,5 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
 }
 
 export default Chart;
+
 

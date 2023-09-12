@@ -13,18 +13,16 @@ function FormatStockData(data) {
     }
   
     for (let date in timeSeries) {
-      formattedData.push({
-        date: new Date(date),
-        open: parseFloat(timeSeries[date]["1. open"]),
-        high: parseFloat(timeSeries[date]["2. high"]),
-        low: parseFloat(timeSeries[date]["3. low"]),
-        close: parseFloat(timeSeries[date]["4. close"]),
-        volume: parseInt(timeSeries[date]["5. volume"])
-      });
+      
+      formattedData.push([
+        new Date(date).getTime(), 
+        parseFloat(timeSeries[date]["4. close"]) 
+      ]);
     }
   
     return formattedData;
-  }
+}
+
   
   export default FormatStockData;
   

@@ -64,6 +64,20 @@ const Dashboard = () => {
   };
 }, [selectedStockSymbol]);
 
+const getDataForSelectedRange = () => {
+  switch (selectedDateRange) {
+    case '1D':
+      return intradayData;
+    case '1M':
+      return dailyData;
+    case '1Y':
+      return monthlyData;
+    default:
+      return [];
+  }
+};
+
+
 
   return (
     <div className='h-screen grid grid-cols-1 md:grid-cols-2 xl:grids-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 auto-rows-fr gap-6 p-10 font-quicksand'>
@@ -75,7 +89,7 @@ const Dashboard = () => {
         />
       </div>
       <div className='md:col-span-2 row-span-4'>
-        <Chart data={chartData} onRangeSelected={setSelectedDateRange} />
+        <Chart data={getDataForSelectedRange()} onRangeSelected={setSelectedDateRange} />
       </div>
       <div>
         <Overview 
