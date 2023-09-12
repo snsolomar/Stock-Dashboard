@@ -56,7 +56,11 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
       tooltip: {
         valueDecimals: 2
       }
-    }]
+    }],
+    tooltip: {
+      pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}: {point.y:.2f}'
+  }
+  
   };
 
   return (
