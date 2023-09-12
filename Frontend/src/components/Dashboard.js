@@ -30,32 +30,32 @@ const Dashboard = () => {
 
   // Fetching stock details and current quotes based on selected stock symbol
   useEffect(() => {
-    const abortController = new AbortController();
+  const abortController = new AbortController();
 
-    if (selectedStockSymbol) {
-        // Fetch the stock details from the server
-        FetchStockDetails(selectedStockSymbol, abortController.signal)
-          .then(data => {
-              setCompanyDetails(data);
-          })
-          .catch(error => {
-              console.error("Error fetching stock details:", error);
-          });
-        
-        // Fetch the stock quote from the server
-        FetchCurrentQuote(selectedStockSymbol, abortController.signal)
-          .then(data => {
-              setCurrentQuote(data);
-          })
-          .catch(error => {
-              console.error("Error fetching current stock quote:", error);
-          });
-    }
+  if (selectedStockSymbol) {
+      // Fetch the stock details from the server
+      FetchStockDetails(selectedStockSymbol, abortController.signal)
+        .then(data => {
+            setCompanyDetails(data);
+        })
+        .catch(error => {
+            console.error("Error fetching stock details:", error);
+        });
+      
+      // Fetch the stock quote from the server
+      FetchCurrentQuote(selectedStockSymbol, abortController.signal)
+        .then(data => {
+            setCurrentQuote(data);
+        })
+        .catch(error => {
+            console.error("Error fetching current stock quote:", error);
+        });
+  }
 
-    return () => {
-        abortController.abort();
-    };
-  }, [selectedStockSymbol]);
+  return () => {
+      abortController.abort();
+  };
+}, [selectedStockSymbol]);
 
 
   return (

@@ -22,3 +22,9 @@ Content-Type: application/json
 
 ### GET intraday by stock symbol 
 GET http://127.0.0.1:3001/stock/intraday/ba
+
+### Get Daily by stock Symbol
+GET http://127.0.0.1:3001/stock/daily/ba
+
+### Get Monthly by stock Symbol
+GET http://127.0.0.1:3001/stock/monthly/ba
