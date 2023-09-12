@@ -1,41 +1,31 @@
-const formatStockData = (data) => {
-    let timeSeriesKey;
+function FormatStockData(data) {
+    let formattedData = [];
+  
+    let timeSeries;
     if (data["Time Series (5min)"]) {
-        timeSeriesKey = "Time Series (5min)";
+      timeSeries = data["Time Series (5min)"];
     } else if (data["Time Series (Daily)"]) {
-        timeSeriesKey = "Time Series (Daily)";
+      timeSeries = data["Time Series (Daily)"];
     } else if (data["Monthly Time Series"]) {
-        timeSeriesKey = "Monthly Time Series";
+      timeSeries = data["Monthly Time Series"];
     } else {
-        console.error("Unknown data format");
-        return [];
+      return [];
     }
-
-    // Log the selected time series key
-    console.log("Selected Time Series Key:", timeSeriesKey);
-
-    // New debug logs
-    console.log("Data Object:", data);
-    console.log("Data under Time Series Key:", data[timeSeriesKey]);
-
-    const formattedData = Object.entries(data[timeSeriesKey]).map(([dateStr, dataPoint]) => {
-        // Log the raw date string
-        // console.log("Raw Date String:", dateStr);
-
-        const timestamp = new Date(dateStr).getTime();
-        // Log the created timestamp
-        // console.log("Generated Timestamp:", timestamp);
-
-        const closePrice = parseFloat(dataPoint["4. close"]);
-        // Log the parsed close price
-        // console.log("Parsed Close Price:", closePrice);
-
-        return [timestamp, closePrice];
-    });
-
+  
+    for (let date in timeSeries) {
+      formattedData.push({
+        date: new Date(date),
+        open: parseFloat(timeSeries[date]["1. open"]),
+        high: parseFloat(timeSeries[date]["2. high"]),
+        low: parseFloat(timeSeries[date]["3. low"]),
+        close: parseFloat(timeSeries[date]["4. close"]),
+        volume: parseInt(timeSeries[date]["5. volume"])
+      });
+    }
+  
     return formattedData;
-};
-
-
-export default formatStockData;
+  }
+  
+  export default FormatStockData;
+  
 

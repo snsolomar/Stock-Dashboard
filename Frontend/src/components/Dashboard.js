@@ -7,6 +7,7 @@ import FetchStockData from '../utils/helperFunctions/FetchStockData';
 import FetchCurrentQuote from '../utils/helperFunctions/FetchCurrentQuote';
 import FetchStockDetails from '../utils/helperFunctions/FetchStockDetails';
 import FetchDateRangeData from '../constants/FetchDateRangeData';
+import formatStockData from '../constants/FormatStockData';
 
 const Dashboard = () => {
   const [selectedStockSymbol, setSelectedStockSymbol] = useState('');
@@ -14,19 +15,25 @@ const Dashboard = () => {
   const [currentQuote, setCurrentQuote] = useState({});
   const [selectedDateRange, setSelectedDateRange] = useState('intraday');
   const [chartData, setChartData] = useState([]);
+  const [intradayData, setIntradayData] = useState([]);
+  const [dailyData, setDailyData] = useState([]);
+  const [monthlyData, setMonthlyData] = useState([]);
 
   // Fetching chart data based on selected date range and stock symbol
   useEffect(() => {
-    const abortController = new AbortController();
+    // This is where we'll fetch and format the data for each date range
+    const fetchData = async () => {
+      const intradayRaw = await FetchStockData(selectedStockSymbol, "1D");
+      const dailyRaw = await FetchStockData(selectedStockSymbol, "1M");
+      const monthlyRaw = await FetchStockData(selectedStockSymbol, "1Y");
 
-    if (selectedStockSymbol) {
-        FetchStockData(selectedDateRange, selectedStockSymbol, setChartData);
-    }
-
-    return () => {
-        abortController.abort();
+      setIntradayData(intradayRaw);
+      setDailyData(dailyRaw);
+      setMonthlyData(monthlyRaw);
     };
-  }, [selectedStockSymbol, selectedDateRange]);
+
+    fetchData();
+}, [selectedStockSymbol]);
 
   // Fetching stock details and current quotes based on selected stock symbol
   useEffect(() => {
