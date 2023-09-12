@@ -38,6 +38,39 @@ app.get('/stock/:stockSymbol', (req, res) => {
 });
 
 /**
+ * Fetches the stock prices based on rangeSelector
+*/
+
+app.get('/stock/data/:stockSymbol', async (req, res) => {
+    try {
+        const { fromDate, toDate, interval } = req.query;
+
+        // Based on interval (and possibly fromDate/toDate), decide which Alphavantage function to call
+        let data;
+        switch (interval) {
+            case '5min':
+                data = await alphavantage.fetchIntradayData(req.params.stockSymbol);
+                break;
+            case 'daily':
+                data = await alphavantage.fetchDailyData(req.params.stockSymbol);
+                break;
+            case 'monthly':
+                data = await alphavantage.fetchMonthlyData(req.params.stockSymbol);
+                break;
+            default:
+                throw new Error('Invalid interval');
+        }
+
+
+        res.json(data);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send('An error occurred while fetching the data');
+    }
+});
+
+
+/**
  * The endpoint we will use to fetch Intraday stock data
 */
 
