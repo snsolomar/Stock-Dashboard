@@ -41,16 +41,41 @@ app.get('/stock/:stockSymbol', (req, res) => {
  * The endpoint we will use to fetch Intraday stock data
 */
 
-app.get('/stock/intraday/:stockSymbol', (req, res) => {
-    alphavantage.fetchIntradayData(req.params.stockSymbol)
-    .then((response) => {
+app.get('/stock/intraday/:stockSymbol', async (req, res) => {
+    try {
+        const response = await alphavantage.fetchIntradayData(req.params.stockSymbol);
+        let daysAgo = 1;
+        let filteredData = {};
+        
+        while (Object.keys(filteredData).length === 0 && daysAgo < 7) {
+            const day = new Date();
+            day.setDate(day.getDate() - daysAgo);
+            const dateString = day.toISOString().split('T')[0];
+            
+            filteredData = Object.keys(response.data["Time Series (5min)"])
+                .filter(timestamp => timestamp.startsWith(dateString))
+                .reduce((obj, key) => {
+                    obj[key] = response.data["Time Series (5min)"][key];
+                    return obj;
+                }, {});
+                
+            daysAgo++;
+        }
+
+        if (Object.keys(filteredData).length === 0) {
+            res.status(404).send('No intraday data found for the past week');
+            return;
+        }
+        
+        response.data["Time Series (5min)"] = filteredData;
         res.json(response.data);
-    })
-    .catch((err) => {
+    } catch (err) {
         console.error('Error:', err);
-        res.status(500).send('An error occurred while fetching the data'); 
-    });
+        res.status(500).send('An error occurred while fetching the data');
+    }
 });
+
+
 
 /**
  * The endpoint we will use to fetch daily stock data
