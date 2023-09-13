@@ -22,8 +22,9 @@ const Dashboard = () => {
     const abortController = new AbortController();
 
     if (selectedStockSymbol) {
-        FetchStockData(selectedDateRange, selectedStockSymbol, setChartData);
-    }
+      const actualDateRange = typeof selectedDateRange === 'object' ? selectedDateRange.range : selectedDateRange;
+      FetchStockData(actualDateRange, selectedStockSymbol, setChartData);
+  }
 
     return () => {
         abortController.abort();
