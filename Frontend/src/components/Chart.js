@@ -14,6 +14,13 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
           type: 'day',
           count: 1,
           text: '1D',
+          events: {
+            click: function() {
+              const dateRange = FetchDateRangeData(this.text);
+              onRangeSelected(dateRange);
+              return true;  // Allow Highcharts default behavior to proceed
+            }
+          }
       }, {
           type: 'day',
           count: 5,
