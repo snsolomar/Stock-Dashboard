@@ -4,7 +4,7 @@ import formatStockData from "../../constants/FormatStockData";
 
 const FetchStockData = async (selectedDateRange, selectedStockSymbol, setChartData) => {
     const DevApi = process.env.REACT_APP_DEV_API_URL;
-    const endpoint = `${DevApi}/stock/${selectedDateRange}/${selectedStockSymbol}`;
+    const endpoint = `${DevApi}/stock/daily/${selectedStockSymbol}/${selectedDateRange}`;
 
     // Log the endpoint
     console.log("Endpoint:", endpoint);

@@ -126,14 +126,19 @@ app.get('/stock/intraday/:stockSymbol', async (req, res) => {
 //     });
 // });
 
-app.get('/stock/daily/:stockSymbol', async (req, res) => {
+app.get('/stock/daily/:stockSymbol/:range', async (req, res) => {
     try {
         const response = await alphavantage.fetchDailyData(req.params.stockSymbol);
+        const range = req.params.range;
         let daysAgo = 1;
+        let maxDays = 0;
         let filteredData = {};
-        
-        // Adjust the < length according to wait the range selector is set up for
-        while (Object.keys(filteredData).length < 4 && daysAgo < 30) {
+
+        if (range === '5D') maxDays = 5;
+        else if (range === '1M') maxDays = 30;
+        else if (range === '6M') maxDays = 180;
+
+        while (Object.keys(filteredData).length < maxDays && daysAgo <= maxDays) {
             const day = new Date();
             day.setDate(day.getDate() - daysAgo);
             const dateString = day.toISOString().split('T')[0];
@@ -146,7 +151,7 @@ app.get('/stock/daily/:stockSymbol', async (req, res) => {
         }
 
         if (Object.keys(filteredData).length === 0) {
-            res.status(404).send('No daily data found for the past month');
+            res.status(404).send(`No daily data found for the past ${range}`);
             return;
         }
         
@@ -157,6 +162,7 @@ app.get('/stock/daily/:stockSymbol', async (req, res) => {
         res.status(500).send('An error occurred while fetching the data');
     }
 });
+
 
 
 /**
