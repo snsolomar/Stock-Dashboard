@@ -24,3 +24,5 @@ const constructEndpoint = (selectedDateRange, selectedStockSymbol) => {
     }
     return endpoint;
 };
+
+export default constructEndpoint;
