@@ -9,7 +9,7 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
       text: chartTitle
     },
     rangeSelector: {
-      selected: 1,
+
       buttons: [{
           type: 'day',
           count: 1,
