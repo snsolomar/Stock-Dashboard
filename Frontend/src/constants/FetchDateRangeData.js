@@ -5,7 +5,7 @@ const FetchDateRangeData = (range) => {
     case '5D':
     case '1M':
     case '6M':
-      return `daily/${range}`;  
+      return { period: 'daily', range: range };   
     case '1Y':
       return 'monthly';  
     default:
