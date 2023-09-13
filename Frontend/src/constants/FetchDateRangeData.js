@@ -7,7 +7,6 @@ const FetchDateRangeData = (range) => {
     case '6M':
       return 'daily';  
     case '1Y':
-    case '5Y':
       return 'monthly';  
     default:
       return 'intraday';  

@@ -179,14 +179,18 @@ app.get('/stock/monthly/:stockSymbol', async (req, res) => {
         const response = await alphavantage.fetchMonthlyData(req.params.stockSymbol);
         let monthsAgo = 1;
         let filteredData = {};
-        
-        while (Object.keys(filteredData).length < 7 && monthsAgo < 24) {
+
+        while (Object.keys(filteredData).length < 13 && monthsAgo < 24) {
             const month = new Date();
             month.setMonth(month.getMonth() - monthsAgo);
             const monthString = month.toISOString().split('T')[0].substr(0, 7);
             
-            if (response.data["Time Series (Monthly)"][monthString + "-01"]) {
-                filteredData[monthString + "-01"] = response.data["Time Series (Monthly)"][monthString + "-01"];
+            // Find any key that starts with the year and month
+            const matchingKey = Object.keys(response.data["Monthly Time Series"])
+                .find(key => key.startsWith(monthString));
+            
+            if (matchingKey) {
+                filteredData[matchingKey] = response.data["Monthly Time Series"][matchingKey];
             }
                 
             monthsAgo++;
@@ -197,13 +201,14 @@ app.get('/stock/monthly/:stockSymbol', async (req, res) => {
             return;
         }
         
-        response.data["Time Series (Monthly)"] = filteredData;
+        response.data["Monthly Time Series"] = filteredData;
         res.json(response.data);
     } catch (err) {
         console.error('Error:', err);
         res.status(500).send('An error occurred while fetching the data');
     }
 });
+
 
 /**
  * Fetches stock symbols based on the search query
