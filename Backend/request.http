@@ -28,3 +28,9 @@ GET http://127.0.0.1:3001/stock/daily/ba
 
 ### Get Monthly by stock Symbol
 GET http://127.0.0.1:3001/stock/monthly/ba
+
+### Get Daily by stock Symbol
+GET http://127.0.0.1:3001/stock/daily/ba/5D
+
+### Get Daily by stock Symbol
+GET http://127.0.0.1:3001/stock/daily/ba/1M

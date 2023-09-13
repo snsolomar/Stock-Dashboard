@@ -5,14 +5,14 @@ const FetchDateRangeData = (range) => {
     case '5D':
     case '1M':
     case '6M':
-      return 'daily';  
+      return { period: 'daily', range: range };   
     case '1Y':
-    case '5Y':
       return 'monthly';  
     default:
       return 'intraday';  
   }
 }
+
 
 export default FetchDateRangeData;
 

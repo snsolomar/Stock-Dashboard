@@ -9,11 +9,18 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
       text: chartTitle
     },
     rangeSelector: {
-      selected: 1,
+
       buttons: [{
           type: 'day',
           count: 1,
           text: '1D',
+          events: {
+            click: function() {
+              const dateRange = FetchDateRangeData(this.text);
+              onRangeSelected(dateRange);
+              return true;  // Allow Highcharts default behavior to proceed
+            }
+          }
       }, {
           type: 'day',
           count: 5,
@@ -30,10 +37,6 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
           type: 'year',
           count: 1,
           text: '1Y'
-      }, {
-          type: 'year',
-          count: 5,
-          text: '5Y'
       }]
     },
     chart: {

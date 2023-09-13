@@ -14,14 +14,17 @@ const Dashboard = () => {
   const [currentQuote, setCurrentQuote] = useState({});
   const [selectedDateRange, setSelectedDateRange] = useState('intraday');
   const [chartData, setChartData] = useState([]);
+  // const [dataCache, setDataCache] = useState({});
+
 
   // Fetching chart data based on selected date range and stock symbol
   useEffect(() => {
     const abortController = new AbortController();
 
     if (selectedStockSymbol) {
-        FetchStockData(selectedDateRange, selectedStockSymbol, setChartData);
-    }
+      const actualDateRange = typeof selectedDateRange === 'object' ? selectedDateRange.range : selectedDateRange;
+      FetchStockData(actualDateRange, selectedStockSymbol, setChartData);
+  }
 
     return () => {
         abortController.abort();

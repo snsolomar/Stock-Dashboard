@@ -1,15 +1,15 @@
 // Used in Dashboard.js
 
 import formatStockData from "../../constants/FormatStockData";
+import constructEndpoint from "../../constants/ConstructEndpoint";
 
 const FetchStockData = async (selectedDateRange, selectedStockSymbol, setChartData) => {
-    const DevApi = process.env.REACT_APP_DEV_API_URL;
-    const endpoint = `${DevApi}/stock/${selectedDateRange}/${selectedStockSymbol}`;
+    const endpoint = constructEndpoint(selectedDateRange, selectedStockSymbol);
 
     // Log the endpoint
     console.log("Endpoint:", endpoint);
 
-    // Create an instance of AbortController
+    
     const abortController = new AbortController();
 
     try {
