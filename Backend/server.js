@@ -39,6 +39,7 @@ app.get('/stock/:stockSymbol', (req, res) => {
 
 /**
  * Fetches the stock prices based on rangeSelector
+ * // Still Testing
 */
 
 app.get('/stock/data/:stockSymbol', async (req, res) => {
@@ -114,30 +115,93 @@ app.get('/stock/intraday/:stockSymbol', async (req, res) => {
  * The endpoint we will use to fetch daily stock data
 */
 
-app.get('/stock/daily/:stockSymbol', (req, res) => {
-    alphavantage.fetchDailyData(req.params.stockSymbol)
-    .then((response) => {
+// app.get('/stock/daily/:stockSymbol', (req, res) => {
+//     alphavantage.fetchDailyData(req.params.stockSymbol)
+//     .then((response) => {
+//         res.json(response.data);
+//     })
+//     .catch((err) => {
+//         console.error('Error:', err);
+//         res.status(500).send('An error occurred while fetching the data'); 
+//     });
+// });
+
+app.get('/stock/daily/:stockSymbol', async (req, res) => {
+    try {
+        const response = await alphavantage.fetchDailyData(req.params.stockSymbol);
+        let daysAgo = 1;
+        let filteredData = {};
+        
+        while (Object.keys(filteredData).length < 4 && daysAgo < 30) {
+            const day = new Date();
+            day.setDate(day.getDate() - daysAgo);
+            const dateString = day.toISOString().split('T')[0];
+            
+            if (response.data["Time Series (Daily)"][dateString]) {
+                filteredData[dateString] = response.data["Time Series (Daily)"][dateString];
+            }
+                
+            daysAgo++;
+        }
+
+        if (Object.keys(filteredData).length === 0) {
+            res.status(404).send('No daily data found for the past month');
+            return;
+        }
+        
+        response.data["Time Series (Daily)"] = filteredData;
         res.json(response.data);
-    })
-    .catch((err) => {
+    } catch (err) {
         console.error('Error:', err);
-        res.status(500).send('An error occurred while fetching the data'); 
-    });
+        res.status(500).send('An error occurred while fetching the data');
+    }
 });
+
 
 /**
  * The endpoint we will use to fetch monthly stock data
 */
 
-app.get('/stock/monthly/:stockSymbol', (req, res) => {
-    alphavantage.fetchMonthlyData(req.params.stockSymbol)
-    .then((response) => {
+// app.get('/stock/monthly/:stockSymbol', (req, res) => {
+//     alphavantage.fetchMonthlyData(req.params.stockSymbol)
+//     .then((response) => {
+//         res.json(response.data);
+//     })
+//     .catch((err) => {
+//         console.error('Error:', err);
+//         res.status(500).send('An error occurred while fetching the data'); 
+//     });
+// });
+
+app.get('/stock/monthly/:stockSymbol', async (req, res) => {
+    try {
+        const response = await alphavantage.fetchMonthlyData(req.params.stockSymbol);
+        let monthsAgo = 1;
+        let filteredData = {};
+        
+        while (Object.keys(filteredData).length < 6 && monthsAgo < 24) {
+            const month = new Date();
+            month.setMonth(month.getMonth() - monthsAgo);
+            const monthString = month.toISOString().split('T')[0].substr(0, 7);
+            
+            if (response.data["Time Series (Monthly)"][monthString + "-01"]) {
+                filteredData[monthString + "-01"] = response.data["Time Series (Monthly)"][monthString + "-01"];
+            }
+                
+            monthsAgo++;
+        }
+
+        if (Object.keys(filteredData).length === 0) {
+            res.status(404).send('No monthly data found for the past 2 years');
+            return;
+        }
+        
+        response.data["Time Series (Monthly)"] = filteredData;
         res.json(response.data);
-    })
-    .catch((err) => {
+    } catch (err) {
         console.error('Error:', err);
-        res.status(500).send('An error occurred while fetching the data'); 
-    });
+        res.status(500).send('An error occurred while fetching the data');
+    }
 });
 
 /**
