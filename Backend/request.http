@@ -41,6 +41,9 @@ GET http://127.0.0.1:3001/stock/intraday/ba/1D
 ### GET intraday by stock symbol 
 GET http://127.0.0.1:3001/stock/intraday/ba/5D
 
+### GET intraday by stock symbol 
+GET http://127.0.0.1:3001/stock/intraday/ba/1M
+
 ### Get Daily by stock Symbol
 GET http://127.0.0.1:3001/stock/daily/ba/6M
 

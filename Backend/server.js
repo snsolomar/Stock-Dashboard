@@ -98,15 +98,17 @@ app.get('/stock/intraday/:stockSymbol/:range', async (req, res) => {
                 return;
         }
 
+        let allTimestamps = Object.keys(response.data["Time Series (5min)"]);
         while (Object.keys(filteredData).length < maxDays && daysAgo <= maxDays) {
             const day = new Date();
             day.setDate(day.getDate() - daysAgo);
             const dateString = day.toISOString().split('T')[0];
-
-            if (response.data["Time Series (5min)"][dateString]) {
-                filteredData[dateString] = response.data["Time Series (5min)"][dateString];
+        
+            let dayTimestamps = allTimestamps.filter(timestamp => timestamp.startsWith(dateString));
+            for (let ts of dayTimestamps) {
+                filteredData[ts] = response.data["Time Series (5min)"][ts];
             }
-
+        
             daysAgo++;
         }
 
