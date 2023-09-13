@@ -75,32 +75,46 @@ app.get('/stock/data/:stockSymbol', async (req, res) => {
  * The endpoint we will use to fetch Intraday stock data
 */
 
-app.get('/stock/intraday/:stockSymbol', async (req, res) => {
+app.get('/stock/intraday/:stockSymbol/:range', async (req, res) => {
     try {
         const response = await alphavantage.fetchIntradayData(req.params.stockSymbol);
+        const range = req.params.range;
         let daysAgo = 1;
+        let maxDays = 0;
         let filteredData = {};
-        
-        while (Object.keys(filteredData).length === 0 && daysAgo < 7) {
+
+        switch (range) {
+            case '1D':
+                maxDays = 1;
+                break;
+            case '5D':
+                maxDays = 5;
+                break;
+            case '1M':
+                maxDays = 30;
+                break;
+            default:
+                res.status(400).send('Invalid range provided for intraday data.');
+                return;
+        }
+
+        while (Object.keys(filteredData).length < maxDays && daysAgo <= maxDays) {
             const day = new Date();
             day.setDate(day.getDate() - daysAgo);
             const dateString = day.toISOString().split('T')[0];
-            
-            filteredData = Object.keys(response.data["Time Series (5min)"])
-                .filter(timestamp => timestamp.startsWith(dateString))
-                .reduce((obj, key) => {
-                    obj[key] = response.data["Time Series (5min)"][key];
-                    return obj;
-                }, {});
-                
+
+            if (response.data["Time Series (5min)"][dateString]) {
+                filteredData[dateString] = response.data["Time Series (5min)"][dateString];
+            }
+
             daysAgo++;
         }
 
         if (Object.keys(filteredData).length === 0) {
-            res.status(404).send('No intraday data found for the past week');
+            res.status(404).send(`No intraday data found for the past ${range}`);
             return;
         }
-        
+
         response.data["Time Series (5min)"] = filteredData;
         res.json(response.data);
     } catch (err) {
@@ -134,19 +148,27 @@ app.get('/stock/daily/:stockSymbol/:range', async (req, res) => {
         let maxDays = 0;
         let filteredData = {};
 
-        if (range === '5D') maxDays = 5;
-        else if (range === '1M') maxDays = 30;
-        else if (range === '6M') maxDays = 180;
+        switch (range) {
+            case '6M':
+                maxDays = 180;
+                break;
+            case '1Y':
+                maxDays = 365;
+                break;
+            default:
+                res.status(400).send('Invalid range provided for daily data.');
+                return;
+        }
 
         while (Object.keys(filteredData).length < maxDays && daysAgo <= maxDays) {
             const day = new Date();
             day.setDate(day.getDate() - daysAgo);
             const dateString = day.toISOString().split('T')[0];
-            
+
             if (response.data["Time Series (Daily)"][dateString]) {
                 filteredData[dateString] = response.data["Time Series (Daily)"][dateString];
             }
-                
+
             daysAgo++;
         }
 
@@ -154,7 +176,7 @@ app.get('/stock/daily/:stockSymbol/:range', async (req, res) => {
             res.status(404).send(`No daily data found for the past ${range}`);
             return;
         }
-        
+
         response.data["Time Series (Daily)"] = filteredData;
         res.json(response.data);
     } catch (err) {

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import HCMore from "highcharts/highcharts-more";
 import FetchDateRangeData from '../constants/FetchDateRangeData';
+
+HCMore(Highcharts);
 
 const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
   const options = {
@@ -54,12 +57,15 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
       }
     },
     series: [{
+      type: 'columnrange',  
       name: 'Stock Value',
       data: data,
       tooltip: {
         valueDecimals: 2
       }
     }],
+
+
     tooltip: {
       pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}: {point.y:.2f}'
   }
