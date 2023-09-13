@@ -30,10 +30,6 @@ const Chart = ({ data, chartTitle = 'Price Chart', onRangeSelected }) => {
           type: 'year',
           count: 1,
           text: '1Y'
-      }, {
-          type: 'year',
-          count: 5,
-          text: '5Y'
       }]
     },
     chart: {

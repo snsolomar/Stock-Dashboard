@@ -132,6 +132,7 @@ app.get('/stock/daily/:stockSymbol', async (req, res) => {
         let daysAgo = 1;
         let filteredData = {};
         
+        // Adjust the < length according to wait the range selector is set up for
         while (Object.keys(filteredData).length < 4 && daysAgo < 30) {
             const day = new Date();
             day.setDate(day.getDate() - daysAgo);
@@ -179,7 +180,7 @@ app.get('/stock/monthly/:stockSymbol', async (req, res) => {
         let monthsAgo = 1;
         let filteredData = {};
         
-        while (Object.keys(filteredData).length < 6 && monthsAgo < 24) {
+        while (Object.keys(filteredData).length < 7 && monthsAgo < 24) {
             const month = new Date();
             month.setMonth(month.getMonth() - monthsAgo);
             const monthString = month.toISOString().split('T')[0].substr(0, 7);
