@@ -11,3 +11,8 @@ https://github.com/snsolomar/Stock-Dashboard/assets/84692193/e7e0da1b-30ff-4b33-
 # Update on progress Sep, 13, 2023
 https://github.com/snsolomar/Stock-Dashboard/assets/84692193/f2a5c3c8-6d73-4e52-ad96-d5762eb25548
 
+# Patch notes
+- update graph to show OLHV
+- 5D and !M range selectors will fetch intraday data to aggregate more data points for analysis
+- 6M, 1Y, and 5Y will fetch daily data (OLHV having issue plotting large amounts of data. Graph module might be too small)
+- Stock Watchlist Feature implementation (backend tested and ready)
